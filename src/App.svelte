@@ -1,47 +1,50 @@
 <script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
+    import { Grid } from './models/Grid';
+    import { AlternatingTileGenerator } from './models/AlternatingTileGenerator';
+    import GameGrid from './components/GameGrid.svelte';
+    import type { GameState } from './models/TileGenerator';
+
+    // Create initial 5x5 grid
+    const grid = new Grid(5, 5);
+    const generator = new AlternatingTileGenerator();
+    const initialState: GameState = { moveCount: 0 };
+    
+    // Populate grid with initial tiles
+    grid.populateGrid(generator, initialState);
 </script>
 
 <main>
-  <div>
-    <a href="https://vite.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
-  </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
+    <h1>TileGame</h1>
+    <div class="game-container">
+        <GameGrid {grid} />
+    </div>
 </main>
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
-  }
+    main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        max-width: 100vw;
+        min-height: 100vh;
+    }
+
+    h1 {
+        margin-bottom: 2rem;
+        color: #646cff;
+    }
+
+    .game-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    @media (prefers-color-scheme: light) {
+        h1 {
+            color: #535bf2;
+        }
+    }
 </style>
