@@ -6,9 +6,10 @@ export interface GridConfig {
     readonly maxHeight: number;
 }
 
+// This is used only until the async config is loaded
 export const defaultGridConfig: GridConfig = {
-    minWidth: 3,
-    maxWidth: 12,
-    minHeight: 3,
-    maxHeight: 12
+    minWidth: 2,
+    maxWidth: 64,
+    minHeight: 2,
+    maxHeight: 64
 };
