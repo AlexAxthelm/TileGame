@@ -16,6 +16,11 @@
         grid.populateGrid(generator, initialState);
         gameStarted = true;
     }
+
+    function handleRestart() {
+        gameStarted = false;
+        grid = null;
+    }
 </script>
 
 <main>
@@ -26,6 +31,9 @@
     {:else}
         <div class="game-container">
             <GameGrid grid={grid!} />
+            <button class="restart-button" on:click={handleRestart} aria-label="Restart game">
+                Restart Game
+            </button>
         </div>
     {/if}
 </main>
@@ -48,9 +56,26 @@
     .game-container {
         width: 100%;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
+        gap: 2rem;
         margin-top: 2rem;
+    }
+
+    .restart-button {
+        padding: 0.6em 1.2em;
+        background-color: #646cff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .restart-button:hover {
+        background-color: #535bf2;
+        transform: translateY(-1px);
     }
 
     @media (prefers-color-scheme: light) {
