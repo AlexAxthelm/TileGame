@@ -2,22 +2,32 @@
     import { Grid } from './models/Grid';
     import { AlternatingTileGenerator } from './models/AlternatingTileGenerator';
     import GameGrid from './components/GameGrid.svelte';
+    import GameSettings from './components/GameSettings.svelte';
     import type { GameState } from './models/TileGenerator';
 
-    // Create initial 5x5 grid
-    const grid = new Grid(5, 5);
+    let gameStarted = false;
+    let grid: Grid | null = null;
     const generator = new AlternatingTileGenerator();
     const initialState: GameState = { moveCount: 0 };
-    
-    // Populate grid with initial tiles
-    grid.populateGrid(generator, initialState);
+
+    function handleStartGame(event: CustomEvent<{ width: number; height: number }>) {
+        const { width, height } = event.detail;
+        grid = new Grid(width, height);
+        grid.populateGrid(generator, initialState);
+        gameStarted = true;
+    }
 </script>
 
 <main>
     <h1>TileGame</h1>
-    <div class="game-container">
-        <GameGrid {grid} />
-    </div>
+    
+    {#if !gameStarted}
+        <GameSettings on:startGame={handleStartGame} />
+    {:else}
+        <div class="game-container">
+            <GameGrid grid={grid!} />
+        </div>
+    {/if}
 </main>
 
 <style>
@@ -40,6 +50,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-top: 2rem;
     }
 
     @media (prefers-color-scheme: light) {
